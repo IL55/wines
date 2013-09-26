@@ -1,0 +1,26 @@
+Ahoj,
+tu je firebase DB:
+https://winelist.firebaseio.com/
+
+
+wine API:
+DOC: http://www.avin.cc/api-documentation/
+KEY: 5877e795dad0649a36c7
+EXAMPLE: http://api.avin.cc/rest/v1.0/GetWineByAvin/AVIN6452997073019/&key=5877e795dad0649a36c7
+
+DOC: http://www.wine-searcher.com/ws-api.lml
+KEY: mrkbrn797699
+EXAMPLE: http://api.wine-searcher.com/wine-select-api.lml?Xkey=mrkbrn797699&Xversion=5&Xwinename=Yquem+Sauternes+Bordeaux+France&Xvintage=2000&Xlocation=usa&Xautoexpand=Y&Xcurrencycode=usd&Xkeyword_mode=X&Xwidesearch=V&Xformat=J
+
+DOC: http://developer.cruvee.com/search-api/
+
+
+ostatne stranky:
+http://www.wine-is.com/Wines/
+http://www.cellartracker.com
+http://www.wine.com
+http://www.vivino.com
+http://www.snooth.com
+http://www.iwinedb.com/
+http://www.winespectator.com/
+http://www.tastings.com/search_wine.lasso
