@@ -21,10 +21,7 @@ module.exports = {
    */
   app_files: {
     js: [ 'code/**/*.js', '!code/**/*.spec.js' ],
-    jsunit: [ 'code/**/*.spec.js' ],
-
-    html: [ 'code/index.html' ],
-    less: 'code/less/main.less'
+    jsunit: [ 'code/**/*.spec.js' ]
   },
 
   /**
