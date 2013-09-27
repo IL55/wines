@@ -6,10 +6,10 @@ var path = require('path');
   // logging configuration
   exports.loggingCfg = {
     // logging folder
-    logsFolder: path.join(__dirname, "logs"),
+    logsFolder: path.join(__dirname, 'logs'),
 
     // filename for logging
-    logsFile: "logs[START TIME].txt",
+    logsFile: 'logs[START TIME].txt',
 
     // If true, messages will be logged as JSON
     jsonFormat: false,
@@ -47,5 +47,18 @@ var path = require('path');
     //  error: error
 
     defaultLogLevel: 'debug'
+  };
+
+  exports.firebase = {
+    url: 'https://igorsalsita.firebaseio.com/',
+    cruveeField: 'cruvee',
+    winelistField: 'winelist'
+  };
+
+
+  exports.cruvee = {
+    host: 'api.avin.cc',
+    urlBegin: '/rest/v1.0/GetWinesByName/',
+    urlEnd: '/&key=5877e795dad0649a36c7&page='
   };
 }).call(this);

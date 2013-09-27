@@ -15,6 +15,16 @@
     "grunt-string-replace": "~0.2.4",
     "superagent": "0.15.4",
     "winston": "0.7.2",
-    "path": "0.4.9"
+    "path": "0.4.9",
+    "firebase": "0.6.3",
+    "underscore": "1.5.2",
+    "mocha": "1.7.4",
+    "sinon": "1.5.2",
+    "should": "1.x.x",
+    "JSV": "4.x.x",
+    "chai": "x.x.x",
+    "chai-as-promised": "x.x.x",
+    "supertest": "x.x.x",
+    "q": "0.9.7"
   }
 }
