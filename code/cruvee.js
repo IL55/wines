@@ -92,7 +92,13 @@
       deferred.resolve(res);
     },
     function (err) {
-      deferred.reject(err);
+      log.debug("query rejected, wait 1 hour ");
+      // wait for 1 hour
+      Q.delay(1000 * 60 * 60)
+      .then(function() {
+        exports.start(query, page, previousData);
+      });
+      return;
     });
 
     return deferred.promise;
@@ -118,6 +124,10 @@
     };
 
     exports.getJSON(options, function(statusCode, result) {
+      if (result.response.aml.error) {
+        deferred.reject(result);
+        return;
+      }
       log.debug("requestData: count " + result.response.aml.wines.count);
       deferred.resolve(result);
     });
