@@ -3,68 +3,10 @@
   var log = require('./logging.js');
   var iterator = require('./string_iterator.js');
   var config = require('./config.js');
-  var agent = require('superagent');
   var Q = require('q');
   var ws = require('./winelist.js');
   var _ = require('underscore');
-
-  var http = require("http");
-  var https = require("https");
-
-  /**
-   * getJSON:  REST get request returning JSON object(s)
-   * @param options: http options object
-   * @param callback: callback to pass the results JSON object(s) back
-   */
-  exports.getJSON = function(options, onResult)
-  {
-      console.log("rest::getJSON");
-
-      var prot = options.port == 443 ? https : http;
-      var req = prot.request(options, function(res)
-      {
-        var output = '';
-        log.debug(options.host + ':' + res.statusCode);
-        res.setEncoding('utf8');
-
-        res.on('data', function (chunk) {
-          output += chunk;
-        });
-
-        res.on('end', function() {
-          // due to JSON.parse crashes with two simbols: \'
-          var obj = {};
-          output = output.replace(/\\'/g, "'");
-          try {
-            obj = JSON.parse(output);
-          }
-          catch(error) {
-            log.debug("problem with JSON.parse url=" + options.path + " error " + error);
-            obj = {
-              result: {
-                response: {
-                  aml: {
-                    wines: {
-                      count: 0
-                    }
-                  }
-                }
-              }
-            };
-          }
-
-          onResult(res.statusCode, obj);
-        });
-      });
-
-      req.on('error', function(err) {
-          //res.send('error: ' + err.message);
-      });
-
-      req.end();
-  };
-
-// /  var request = require('request');
+  var common = require('./common.js');
 
   var myRootRef = ws.rootRef;
   var cruveeServerConfig = myRootRef.child(config.firebase.cruveeField);
@@ -88,9 +30,7 @@
       } else if (res.cmd === "next page") {
         // recursion
         if (previousData &&
-            previousData.response.aml.wines.wine &&
-            previousData.response.aml.wines.wine[0] &&
-            previousData.response.aml.wines.wine[0].avin == res.data.response.aml.wines.wine[0].avin
+            previousData[0].name == res.data.response.aml.wines.wine[0].name
             )
         {
           // got to new query
@@ -141,13 +81,25 @@
         }
     };
 
-    exports.getJSON(options, function(statusCode, result) {
-      if (result.response.aml.error) {
+    common.getJSON(options, function(statusCode, result) {
+      if (!result ||
+          !result.response ||
+          !result.response.aml ||
+          result.response.aml.error) {
+        log.debug("requestData: error " + JSON.stringify(result, null, '\t'));
         deferred.reject(result);
         return;
       }
       log.debug("requestData: count " + result.response.aml.wines.count);
-      deferred.resolve(result);
+
+      var wines = [];
+      if (data.response.aml.wines.wine) {
+        _.each(data.response.aml.wines.wine, function(wine) {
+          wines.push(wine.name);
+        });
+      }
+
+      deferred.resolve(wines);
     });
     return deferred.promise;
   };
@@ -176,7 +128,8 @@
         newQueryValue = iterator.begin(3);
       }
       else {
-        newQueryValue = iterator.next(snapshot.val());
+        // continue from previous
+        newQueryValue = snapshot.val();
 
         if (newQueryValue === iterator.begin(3)) {
           log.info('Task finished');

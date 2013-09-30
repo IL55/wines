@@ -52,7 +52,8 @@ var path = require('path');
   exports.firebase = {
     url: 'https://igorsalsita.firebaseio.com/',
     cruveeField: 'cruvee',
-    winelistField: 'winelist'
+    winelistField: 'winelist',
+    wcs: "api-wine-searcher-com"
   };
 
 
@@ -60,5 +61,10 @@ var path = require('path');
     host: 'api.avin.cc',
     urlBegin: '/rest/v1.0/GetWinesByName/',
     urlEnd: '/&key=5877e795dad0649a36c7&page='
+  };
+
+  exports.wcs = {
+    host: 'api.wine-searcher.com',
+    url: '/wine-select-api.lml?Xkey=mrkbrn797699&Xversion=5&Xautoexpand=Y&Xkeyword_mode=A&Xformat=J&Xvintage='
   };
 }).call(this);

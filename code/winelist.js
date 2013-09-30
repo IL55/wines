@@ -17,7 +17,8 @@
     log.debug("saveData started ");
     var deferred = q.defer();
 
-    if (!data.response.aml.wines.count) {
+    if (!data ||
+        !data.length) {
       // no data
       log.debug("saveData: finish query");
       deferred.resolve({cmd: "finish query"});
@@ -26,15 +27,15 @@
 
     var promisesArray = [];
 
-    _.each(data.response.aml.wines.wine, function(wine) {
-      var promise = q.spread([wine.name], exports.addWine);
+    _.each(data, function(name) {
+      var promise = q.spread([name], exports.addWine);
       promisesArray.push(promise);
     });
 
     q.allSettled(promisesArray)
     .then(function(){
       log.debug("saveData: after delay");
-      if (data.response.aml.wines.count == 100) {
+      if (data.length === 100) {
         log.debug("saveData: next page");
         deferred.resolve({cmd: "next page", data: data});
       } else {

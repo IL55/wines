@@ -1,11 +1,13 @@
 //
 // start/stop server
 //
-var cruvee = require('./cruvee.js');
 var log = require('./logging.js');
 var config = require('./config.js');
 var agent = require('superagent');
 var _ = require('underscore');
+
+var cruvee = require('./cruvee.js');
+var wsc = require('./wsc.js');
 
 ; (function () {
 
@@ -18,7 +20,8 @@ var _ = require('underscore');
   exports.start = function() {
     log.info("Main started");
 
-    cruvee.init();
+    //cruvee.init();
+    wsc.init();
   };
 
   exports.start();
