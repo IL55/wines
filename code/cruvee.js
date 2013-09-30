@@ -33,8 +33,26 @@
 
         res.on('end', function() {
           // due to JSON.parse crashes with two simbols: \'
+          var obj = {};
           output = output.replace(/\\'/g, "'");
-          var obj = JSON.parse(output);
+          try {
+            obj = JSON.parse(output);
+          }
+          catch(error) {
+            log.debug("problem with JSON.parse url=" + options.path + " error " + error);
+            obj = {
+              result: {
+                response: {
+                  aml: {
+                    wines: {
+                      count: 0
+                    }
+                  }
+                }
+              }
+            };
+          }
+
           onResult(res.statusCode, obj);
         });
       });
