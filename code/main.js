@@ -8,6 +8,7 @@ var _ = require('underscore');
 
 var cruvee = require('./cruvee.js');
 var wsc = require('./wsc.js');
+var wineISParser = require('./wineISParser.js');
 
 ; (function () {
 
@@ -20,8 +21,9 @@ var wsc = require('./wsc.js');
   exports.start = function() {
     log.info("Main started");
 
-    //cruvee.init();
-    wsc.init();
+    cruvee.init();
+    //wsc.init();
+    //wineISParser.init();
   };
 
   exports.start();
