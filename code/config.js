@@ -52,7 +52,7 @@ var path = require('path');
   exports.firebase = {
     url: 'https://igorsalsita.firebaseio.com/',
     cruveeField: 'cruvee',
-    winelistField: 'winelist',
+    winelistField: 'winelistTemp',
     wcs: "api-wine-searcher-com",
     wineIS: "wine-is-com"
   };

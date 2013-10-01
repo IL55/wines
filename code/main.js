@@ -10,6 +10,8 @@ var cruvee = require('./cruvee.js');
 var wsc = require('./wsc.js');
 var wineISParser = require('./wineISParser.js');
 
+var cellTracker = require('./celltracker.js');
+
 ; (function () {
 
   process.on('uncaughtException', function (err) {
@@ -24,6 +26,7 @@ var wineISParser = require('./wineISParser.js');
     //cruvee.init();
     //wsc.init();
     //wineISParser.init();
+    //cellTracker.init();
   };
 
   exports.start();
