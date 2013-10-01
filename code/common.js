@@ -61,9 +61,8 @@
    * @param options: http options object
    * @param callback: callback to pass the results JSON object(s) back
    */
-  exports.getHTML = function(options, onResult)
-  {
-      log.debug("rest::getJSON");
+  exports.getHTML = function(options, onResult) {
+      log.debug("getHTML http://" + options.host + options.path);
 
       var prot = options.port == 443 ? https : http;
       var req = prot.request(options, function(res)

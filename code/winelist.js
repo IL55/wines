@@ -20,8 +20,7 @@
     if (!data ||
         !data.length) {
       // no data
-      log.debug("saveData: finish query");
-      deferred.resolve({cmd: "finish query"});
+      deferred.resolve({cmd: "finish query", data: []});
       return deferred.promise;
     }
 
@@ -34,13 +33,10 @@
 
     q.allSettled(promisesArray)
     .then(function(){
-      log.debug("saveData: after delay");
       if (data.length === 100) {
-        log.debug("saveData: next page");
         deferred.resolve({cmd: "next page", data: data});
       } else {
-        log.debug("saveData: finish query");
-        deferred.resolve({cmd: "finish query"});
+        deferred.resolve({cmd: "finish query", data: data});
       }
     });
 

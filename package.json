@@ -27,6 +27,6 @@
     "supertest": "x.x.x",
     "q": "0.9.7",
     "jquery": "",
-    "jsdom": ""
+    "cheerio": ""
   }
 }

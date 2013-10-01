@@ -22,36 +22,21 @@
     .then(function (res) {
       log.debug("ws.saveData returns " + res.cmd);
 
-      // for debug
-      return;
-
-
-      if (res.cmd === "finish query") {
-        var newQueryValue = exports.update(query);
-        if (newQueryValue === iterator.begin(1)) {
-          log.info('Task finished 1');
+      if (res.data.length > 20) {
+        // go to next page
+        log.info('start: go to next page');
+        exports.start(query, page + 21, res.data);
+      } else {
+        log.info('start: go to new query');
+        // go to new query
+        var newQueryValue1 = exports.update(query);
+        if (newQueryValue1 === iterator.begin(1)) {
+          log.info('Task finished 2');
+          deferred.resolve(res);
           return;
         }
         // recursion
-        exports.start(newQueryValue, 0);
-      } else if (res.cmd === "next page") {
-        // recursion
-        if (previousData &&
-            previousData[0].name == res.data.response.aml.wines.wine[0].name
-            )
-        {
-          // got to new query
-          var newQueryValue1 = exports.update(query);
-          if (newQueryValue1 === iterator.begin(1)) {
-            log.info('Task finished 2');
-            return;
-          }
-          // recursion
-          exports.start(newQueryValue1, 0);
-        } else {
-          // go to new page
-          exports.start(query, page + 21, res.data);
-        }
+        exports.start(newQueryValue1, 0);
       }
 
       deferred.resolve(res);
@@ -81,20 +66,20 @@
         method: 'GET'
     };
 
-    jsdom.env(
-      "http://nodejs.org/dist/",
-      ["http://code.jquery.com/jquery.js"],
-      function (errors, window) {
-        console.log("there have been", window.$("a").length, "nodejs releases!");
-      }
-    );
-
     common.getHTML(options, function(statusCode, html) {
-      log.debug("requestData: html " + html);
+      log.debug("requestData: html.length=" + html.length);
       var wines = [];
+      var $ = cheerio.load(html);
+      var strongList = $('strong');
+      if (strongList) {
+        $('strong').each(function(index, element) {
+          wines.push($(element).text());
+        });
+      }
+
+      log.debug("requestData: wines.length=" + wines.length);
       deferred.resolve(wines);
     });
-
 
     return deferred.promise;
   };
@@ -103,14 +88,14 @@
 
     var newQueryValue = iterator.next(query);
     if (newQueryValue === iterator.begin(1)) {
-      log.info('Task finished');
+      log.info('update: Task finished');
       return newQueryValue;
     }
 
     // update last accessed string
     wineISServerConfig.set(newQueryValue, function(error) {
       if (error) {
-        log.info('Data could not be saved.' + error);
+        log.info('update: Data could not be saved.' + error);
       }
     });
     return newQueryValue;
@@ -118,7 +103,7 @@
 
 
   exports.init = function () {
-    log.debug("wineIS init");
+    log.debug("init: wineIS init");
     wineISServerConfig.once('value', function(snapshot) {
       var newQueryValue;
       if(snapshot.val() === null) {
@@ -129,7 +114,7 @@
         newQueryValue = snapshot.val();
 
         if (newQueryValue === iterator.begin(1)) {
-          log.info('Task finished 3');
+          log.info('init: Task finished 3');
           return;
         }
       }
@@ -137,12 +122,12 @@
       // update last accessed string
       wineISServerConfig.set(newQueryValue, function(error) {
         if (error) {
-          log.info('Data could not be saved.' + error);
+          log.info('init: Data could not be saved.' + error);
         }
       });
       exports.start(newQueryValue, 0)
       .then(function(res) {
-        log.info("start finished: " + res.cmd);
+        log.info("init: start finished: " + res.cmd);
       });
     });
   };

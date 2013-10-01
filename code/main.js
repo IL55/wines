@@ -21,7 +21,7 @@ var wineISParser = require('./wineISParser.js');
   exports.start = function() {
     log.info("Main started");
 
-    cruvee.init();
+    //cruvee.init();
     //wsc.init();
     //wineISParser.init();
   };
