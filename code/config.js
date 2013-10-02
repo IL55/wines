@@ -52,9 +52,11 @@ var path = require('path');
   exports.firebase = {
     url: 'https://igorsalsita.firebaseio.com/',
     cruveeField: 'cruvee',
-    winelistField: 'winelistTemp',
+    winelistField: 'winelist',
     wcs: "api-wine-searcher-com",
-    wineIS: "wine-is-com"
+    wineIS: "wine-is-com",
+    wineCom: "wine-com",
+    vivinoCom: "vivino-com"
   };
 
 
@@ -73,5 +75,28 @@ var path = require('path');
     host: 'www.wine-is.com',
     urlBegin: '/Wines/',
     urlEnd: '?startIndex='
+  };
+
+   exports.wineCom = {
+    host: 'www.wine.com',
+    urlBegin: '/V6/search/results.aspx?state=CA&term=',
+    urlEnd: '&Nao='
+  };
+
+  exports.vivinoCom = {
+    host: 'www.vivino.com',
+    urlBegin: '/search.php?q=',
+    urlEnd: '&search_for=wines&sort=ranking&per_page=100&page='
+  };
+
+  exports.snoothCom = {
+    firebaseIteratorName: "snooth-com",
+    host: 'www.snooth.com',
+    urlBegin: '/wines/?query=',
+    urlEnd: '&search_page=',
+    selector: '.wine-name a',
+    itemsOnPage: 10,
+    lengthOfStringIterator: 1,
+    startPage: 1
   };
 }).call(this);

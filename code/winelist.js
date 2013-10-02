@@ -32,7 +32,14 @@
     });
 
     q.allSettled(promisesArray)
-    .then(function(){
+    .then(function(resultArray){
+
+      for (i = 0; i < resultArray.length; i++) {
+        if (resultArray[i].state !== "fulfilled") {
+          log.debug("Wine not added " + data[i]);
+        }
+      }
+
       if (data.length === 100) {
         deferred.resolve({cmd: "next page", data: data});
       } else {
@@ -48,8 +55,15 @@
     log.debug("addWine " + name);
 
     winelistRef.child(name).set(true, function(error) {
-      log.debug("Wine added " + name);
-      deferred.resolve({});
+      if (error) {
+        log.debug("Wine not added " + name);
+        deferred.resolve({status:"nok"});
+      }
+      else {
+        log.debug("Wine added " + name);
+        deferred.resolve({status:"ok"});
+      }
+
     });
 
     return deferred.promise;

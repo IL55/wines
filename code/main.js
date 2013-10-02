@@ -12,6 +12,14 @@ var wineISParser = require('./wineISParser.js');
 
 var cellTracker = require('./celltracker.js');
 
+var wineComParser = require('./wineComParser.js');
+
+var vivinoComParser = require('./vivinoComParser.js');
+
+var snoothComParser = require('./snoothComParser.js');
+
+var iwinedb = require('./iwinedb.js');
+
 ; (function () {
 
   process.on('uncaughtException', function (err) {
@@ -27,6 +35,10 @@ var cellTracker = require('./celltracker.js');
     //wsc.init();
     //wineISParser.init();
     //cellTracker.init();
+    //wineComParser.init();
+    //vivinoComParser.init();
+    //snoothComParser.init(config.snoothCom);
+    iwinedb.init();
   };
 
   exports.start();
